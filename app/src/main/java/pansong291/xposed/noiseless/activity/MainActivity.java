@@ -48,7 +48,7 @@ public class MainActivity extends Zactivity
   super.onCreate(savedInstanceState);
   setContentView(R.layout.activity_main);
   
-  HookConfig.init();
+  HookConfig.init(this);
   SwitchListener sl = new SwitchListener();
   for(int i = 0; i < ss.length; i++)
   {

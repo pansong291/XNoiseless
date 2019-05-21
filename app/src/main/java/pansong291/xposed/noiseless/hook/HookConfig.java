@@ -62,6 +62,16 @@ public class HookConfig
   inited = true;
  }
  
+ public static void init(Zactivity za)
+ {
+  if(inited)return;
+  int value = za.getPrefs().getInt(KEY_STREAM,0);
+  for(int i = 0, x = 1; i < noiseless.length; i++, x<<=1)
+   noiseless[i] = (value & x) == x;
+  pkgs = za.getPrefs().getStringSet(KEY_PKG, new TreeSet<String>());
+  inited = true;
+ }
+ 
  public static void save(Zactivity za)
  {
   int value = 0;
