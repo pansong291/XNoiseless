@@ -22,7 +22,7 @@ import pansong291.xposed.noiseless.listener.SwitchListener;
 public class MainActivity extends Zactivity 
 {
  Switch[] ss = new Switch[HookConfig.noiseless.length];
- TextView txt_no_apps;
+ TextView txt_unactivated,txt_no_apps;
  ListView listView;
  List<AppInfo> list;
  AppListAdapter appListAdapter;
@@ -48,6 +48,8 @@ public class MainActivity extends Zactivity
   super.onCreate(savedInstanceState);
   setContentView(R.layout.activity_main);
   
+  txt_unactivated = findViewById(R.id.txt_unactivated);
+  setModuleActive(false);
   HookConfig.init(this);
   SwitchListener sl = new SwitchListener();
   for(int i = 0; i < ss.length; i++)
@@ -71,6 +73,8 @@ public class MainActivity extends Zactivity
      for(int i = 0; i < packages.size(); i++)
      {
       PackageInfo packageInfo = packages.get(i);
+      if(packageInfo.packageName.equals(getPackageName()))
+       continue;
       tmpInfo = new AppInfo();
       tmpInfo.icon = packageInfo.applicationInfo
       .loadIcon(MainActivity.this.getPackageManager());
@@ -98,6 +102,18 @@ public class MainActivity extends Zactivity
  {
   HookConfig.save(this);
   super.onStop();
+ }
+ 
+ // Xposed模块是否激活。默认false
+ // 激活后hook将其值改为true
+ public void setModuleActive(boolean isModuleActive)
+ {
+  int visibility;
+  if(isModuleActive)
+   visibility = View.GONE;
+  else
+   visibility = View.VISIBLE;
+  txt_unactivated.setVisibility(visibility);
  }
  
 }

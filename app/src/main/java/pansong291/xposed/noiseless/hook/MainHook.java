@@ -16,6 +16,28 @@ public class MainHook implements IXposedHookLoadPackage
  @Override
  public void handleLoadPackage(LoadPackageParam p1) throws Throwable
  {
+  if(p1.packageName.equals("pansong291.xposed.noiseless"))
+  {
+   log("try to hook self");
+   /*
+    * hook自身时，如果直接用MainActivity.class会没有任何效果
+    * 使用类名字符串加classLoader才有效果
+    * 不清楚是什么原因
+    */
+   XposedHelpers.findAndHookMethod(
+   "pansong291.xposed.noiseless.activity.MainActivity",p1.classLoader,
+   "setModuleActive",boolean.class,
+   new XC_MethodHook()
+   {
+     protected void beforeHookedMethod(MethodHookParam param) throws Throwable
+     {
+      param.args[0] = true;
+      log("hook self success");
+     }
+   });
+   return;
+  }
+  
   HookConfig.init();
   
   if(!HookConfig.pkgs.contains(p1.packageName))

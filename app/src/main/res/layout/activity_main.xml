@@ -7,12 +7,27 @@
 	android:paddingLeft="12dp"
 	android:paddingRight="12dp">
 
-	<TextView
-		android:text="@string/app_name"
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textSize="24sp"
-		android:textColor="#FF989898"/>
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:text="Noiseless"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="24sp"
+			android:textColor="#FF989898"/>
+
+		<TextView
+			android:text="(Unactivated)"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="24sp"
+			android:textColor="#FFEE0000"
+			android:id="@+id/txt_unactivated"/>
+
+	</LinearLayout>
 
 	<Switch
 		android:layout_width="match_parent"
@@ -69,7 +84,7 @@
 			android:layout_height="wrap_content"
 			android:fastScrollEnabled="true"
 			android:id="@+id/list_app"
-			android:divider="@null"/>
+			android:dividerHeight="1dp"/>
 
 	</RelativeLayout>
 
