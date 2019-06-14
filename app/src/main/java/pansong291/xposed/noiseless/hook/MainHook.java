@@ -6,6 +6,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import android.app.Activity;
+import android.os.Bundle;
 
 public class MainHook implements IXposedHookLoadPackage
 {
@@ -44,6 +46,23 @@ public class MainHook implements IXposedHookLoadPackage
    return;
    
   pkgN = p1.packageName;
+  
+  XposedHelpers.findAndHookMethod(Activity.class,
+   "onCreate",Bundle.class,
+   new XC_MethodHook()
+   {
+    protected void afterHookedMethod(MethodHookParam param) throws Throwable
+    {
+     log("onCreate____");
+     Activity act = (Activity) param.thisObject;
+     AudioManager am = act.getSystemService(AudioManager.class);
+     for(int i=0;i<=10;i++)
+     {
+      if(am.getStreamVolume(i) != am.getStreamMinVolume(i))
+       am.setStreamVolume(i,0,0);
+     }
+    }
+   });
   
   XposedHelpers.findAndHookMethod(AudioManager.class,
   "setStreamVolume",int.class,int.class,int.class,
